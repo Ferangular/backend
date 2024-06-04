@@ -31,11 +31,11 @@ export class AuthController {
 
   
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
-  @ApiResponse({ status: 201, type: LoginDto })
-  @ApiResponse({ status: 200, description: 'User logged in successfully', type: LoginDto })
+  @ApiResponse({ status: 201})
+  @ApiResponse({ status: 200, description: 'User logged in successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/login')
-  login( @Body() loginDto: LoginDto  ) {
+  login( @Body() loginDto: LoginDto) : Promise<LoginResponse> {
     return this.authService.login( loginDto );
   }
 
@@ -44,7 +44,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'User registered in successfully', type: RegisterUserDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/register')
-  register( @Body() registerDto: RegisterUserDto  ) {
+  register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponse> {
     return this.authService.register( registerDto );
   }
 
