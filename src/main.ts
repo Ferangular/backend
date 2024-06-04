@@ -26,7 +26,7 @@ async function bootstrap() {
 
   // Guardar el archivo JSON de Swagger en la carpeta dist para su uso
   writeFileSync('./dist/swagger.json', JSON.stringify(document));
-
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();
