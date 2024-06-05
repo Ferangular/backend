@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { User } from './entities/user.entity';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { LoginResponseDto } from './dto';
+import { CreateUserDto, LoginDto, LoginResponseDto, RegisterUserDto } from './dto';
 
 @ApiTags('auth')
 @Controller('auth')
