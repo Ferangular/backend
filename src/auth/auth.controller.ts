@@ -7,13 +7,10 @@ import {
   Request
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginDto } from './dto/login.dto';
-import { RegisterUserDto } from './dto/register-user.dto';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { LoginResponse } from './interfaces/login-response';
 import { User } from './entities/user.entity';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginResponseDto } from './dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -31,21 +28,23 @@ export class AuthController {
 
   
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
-  @ApiResponse({ status: 201})
-  @ApiResponse({ status: 200, description: 'User logged in successfully' })
+  @ApiResponse({ status: 201, type: LoginResponseDto})
+  @ApiResponse({ status: 200, description: 'User logged in successfully' , type: LoginResponseDto})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Post('/login')
-  login( @Body() loginDto: LoginDto) : Promise<LoginResponse> {
+  login( @Body() loginDto: LoginDto) : Promise<LoginResponseDto> {
     return this.authService.login( loginDto );
   }
 
+
   @ApiOperation({ summary: 'Register user', description: 'Register user' })
-  @ApiResponse({ status: 201, type: RegisterUserDto })
-  @ApiResponse({ status: 200, description: 'User registered in successfully', type: RegisterUserDto })
+  @ApiResponse({ status: 201, type: LoginResponseDto })
+  @ApiResponse({  status: 200, description: 'User registered in successfully', type: LoginResponseDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/register')
-  register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponse> {
-    return this.authService.register( registerDto );
+  async register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
+    return await this.authService.register( registerDto );
   }
 
 
@@ -69,7 +68,7 @@ export class AuthController {
   @ApiBearerAuth() // Aplicar el esquema de seguridad a este endpoint
   @ApiOperation({ summary: 'Check token validity', description: 'Check token validity' })
   @ApiResponse({ status: 200, description: 'Token is valid' })
-  checkToken( @Request() req: Request ): LoginResponse {
+  checkToken( @Request() req: Request ): LoginResponseDto {
       
     const user = req['user'] as User;
 
