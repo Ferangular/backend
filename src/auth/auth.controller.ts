@@ -25,7 +25,7 @@ export class AuthController {
 
   @Post('create')
   @ApiOperation({ summary: 'Create a new user', description: 'Create a new user' })
-  @ApiResponse({ status: 201, description: 'The user has been successfully created.', type: CreateUserDto })
+  @ApiResponse({ status: 201, description: 'The user has been successfully created.'})
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   create(@Body() createUserDto: CreateUserDto) {
@@ -35,7 +35,7 @@ export class AuthController {
   
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
   @ApiResponse({ status: 201, type: LoginResponseDto})
-  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully' , type: LoginResponseDto})
+  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully'})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Post('/login')
@@ -45,12 +45,12 @@ export class AuthController {
 
 
   @ApiOperation({ summary: 'Register user', description: 'Register user' })
-  @ApiResponse({ status: 201, type: LoginResponseDto })
-  @ApiCreatedResponse({  status: 200, description: 'User registered in successfully', type: LoginResponseDto })
+  @ApiResponse({ status: 201 })
+  @ApiCreatedResponse({  status: 200, description: 'User registered in successfully'})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/register')
-  async register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
-    return await this.authService.register( registerDto );
+   register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
+    return  this.authService.register( registerDto );
   }
   @UseGuards(AuthGuard)
   @Get()
