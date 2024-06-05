@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { writeFileSync } from 'fs';
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -27,6 +28,9 @@ async function bootstrap() {
   // Guardar el archivo JSON de Swagger en la carpeta dist para su uso
   writeFileSync('./dist/swagger.json', JSON.stringify(document));
   app.enableCors();
-  await app.listen(3000);
+
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+
 }
 bootstrap();

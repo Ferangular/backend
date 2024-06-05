@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 
 export class LoginResponseDto{
-  @ApiProperty()
+  @ApiProperty({type: User})
   user: User;
   @ApiProperty()
   token: string;

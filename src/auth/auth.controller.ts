@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { User } from './entities/user.entity';
 import {
-  ApiBearerAuth,
+  ApiBearerAuth, ApiBody,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
@@ -45,10 +45,11 @@ export class AuthController {
 
 
   @ApiOperation({ summary: 'Register user', description: 'Register user' })
-  @ApiResponse({ status: 201 })
-  @ApiCreatedResponse({  status: 200, description: 'User registered in successfully'})
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/register')
+  @ApiBody({ type: RegisterUserDto })
+  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully', type: LoginResponseDto})
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
    register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
     return  this.authService.register( registerDto );
   }
