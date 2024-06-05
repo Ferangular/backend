@@ -9,7 +9,13 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { User } from './entities/user.entity';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUserDto, LoginDto, LoginResponseDto, RegisterUserDto } from './dto';
 
 @ApiTags('auth')
@@ -29,7 +35,7 @@ export class AuthController {
   
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
   @ApiResponse({ status: 201, type: LoginResponseDto})
-  @ApiResponse({ status: 200, description: 'User logged in successfully' , type: LoginResponseDto})
+  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully' , type: LoginResponseDto})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   @Post('/login')
@@ -40,14 +46,12 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Register user', description: 'Register user' })
   @ApiResponse({ status: 201, type: LoginResponseDto })
-  @ApiResponse({  status: 200, description: 'User registered in successfully', type: LoginResponseDto })
+  @ApiCreatedResponse({  status: 200, description: 'User registered in successfully', type: LoginResponseDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('/register')
   async register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
     return await this.authService.register( registerDto );
   }
-
-
   @UseGuards(AuthGuard)
   @Get()
   @ApiBearerAuth() // Aplicar el esquema de seguridad a este endpoint
@@ -56,7 +60,9 @@ export class AuthController {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   findAll( @Request() req: Request ) {
     // const user = req['user'];
-    
+
+
+
     // return user;
     return this.authService.findAll();
   }
