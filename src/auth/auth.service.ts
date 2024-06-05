@@ -4,14 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 
 import * as bcryptjs from 'bcryptjs';
-
 import { User } from './entities/user.entity';
-
 import { JwtPayload } from './interfaces/jwt-payload';
-import { LoginResponse } from './interfaces/login-response';
-import { CreateUserDto } from './dto/create-user.dto';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { LoginDto } from './dto/login.dto';
+import { CreateUserDto, RegisterUserDto, LoginResponseDto, LoginDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -50,7 +45,7 @@ export class AuthService {
 
   }
 
-  async register( registerDto: RegisterUserDto ): Promise<LoginResponse> {
+  async register( registerDto: RegisterUserDto ): Promise<LoginResponseDto> {
 
     const user = await this.create( registerDto );
 
@@ -61,7 +56,7 @@ export class AuthService {
   }
 
 
-  async login( loginDto: LoginDto ):Promise<LoginResponse> {
+  async login( loginDto: LoginDto ):Promise<LoginResponseDto> {
 
     const { email, password } = loginDto;
 

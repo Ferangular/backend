@@ -34,7 +34,7 @@ export class AuthController {
 
   
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
-  @ApiResponse({ status: 201, type: LoginResponseDto})
+  @ApiResponse({ status: 201})
   @ApiCreatedResponse({ status: 200, description: 'User logged in successfully'})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
