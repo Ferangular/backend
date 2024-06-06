@@ -18,6 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto, LoginDto, LoginResponseDto, RegisterUserDto } from './dto';
 
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -32,13 +33,21 @@ export class AuthController {
     return this.authService.create(createUserDto);
   }
 
-  
   @ApiOperation({ summary: 'Login user', description: 'Login user' })
-  @ApiResponse({ status: 201})
-  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully'})
+  @Post('/login')
+  @ApiBody({ type: LoginDto })
+  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully', type: LoginResponseDto, schema: {
+      example: {
+        user: {
+          id: '60ba0c1b6e3c1c43a0d4172c',
+          name: 'John Doe',
+          email: 'john@example.com'
+        },
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+      }
+    }})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
-  @Post('/login')
   login( @Body() loginDto: LoginDto) : Promise<LoginResponseDto> {
     return this.authService.login( loginDto );
   }
@@ -47,7 +56,16 @@ export class AuthController {
   @ApiOperation({ summary: 'Register user', description: 'Register user' })
   @Post('/register')
   @ApiBody({ type: RegisterUserDto })
-  @ApiCreatedResponse({ status: 200, description: 'User logged in successfully', type: LoginResponseDto})
+  @ApiCreatedResponse({ status: 200, description: 'User register in successfully', type: LoginResponseDto, schema: {
+      example: {
+        user: {
+          id: '60ba0c1b6e3c1c43a0d4172c',
+          name: 'John Doe',
+          email: 'john@example.com'
+        },
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+      }
+  }})
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
    register( @Body() registerDto: RegisterUserDto  ) : Promise<LoginResponseDto> {
