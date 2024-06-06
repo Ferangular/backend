@@ -29,7 +29,7 @@ async function bootstrap() {
   writeFileSync('./dist/swagger.json', JSON.stringify(document));
   app.enableCors();
 
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3000;
   await app.listen(port);
 
 }
